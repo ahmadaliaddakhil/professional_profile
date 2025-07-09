@@ -1,0 +1,8 @@
+body {
+  margin: 0px;
+  font-family: var(--font-inter);
+  overflow-x: hidden;
+}
+:root {
+  --font-inter: "Inter", sans-serif;
+}
