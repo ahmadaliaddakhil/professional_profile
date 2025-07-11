@@ -9,7 +9,7 @@ $transition-bezier: cubic-bezier(0.76, 0, 0.24, 1);
   width: 100%;
   padding: 35px;
   box-sizing: border-box;
-  color: white;
+  color: black;
   font-weight: 500;
   font-family: var(--font-inter);
   z-index: 2;
@@ -23,7 +23,7 @@ $transition-bezier: cubic-bezier(0.76, 0, 0.24, 1);
     align-items: center;
     cursor: pointer;
     text-decoration: none;
-    color: white;
+    color: black;
 
     p {
       margin: 0;
@@ -117,7 +117,7 @@ $transition-bezier: cubic-bezier(0.76, 0, 0.24, 1);
         padding: 15px;
         cursor: pointer;
         text-decoration: none;
-        color: white;
+        color: black;
         transition: opacity 0.3s ease;
 
         &:hover {
@@ -132,7 +132,7 @@ $transition-bezier: cubic-bezier(0.76, 0, 0.24, 1);
           left: 50%;
           width: 5px;
           height: 5px;
-          background-color: white;
+          background-color: black;
           border-radius: 50%;
           transform: scale(0) translateX(-50%);
           transition: transform 0.3s $transition-bezier;
@@ -143,7 +143,7 @@ $transition-bezier: cubic-bezier(0.76, 0, 0.24, 1);
 
     .mobileMenuText {
       display: none;
-      color: white;
+      color: black;
       font-size: 18px;
       font-weight: 300;
       cursor: pointer;
@@ -210,7 +210,7 @@ $transition-bezier: cubic-bezier(0.76, 0, 0.24, 1);
       height: 1px;
       width: 40%;
       margin: auto;
-      background-color: white;
+      background-color: black;
       position: relative;
       transition: transform 0.3s $transition-bezier;
     }

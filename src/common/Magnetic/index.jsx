@@ -25,7 +25,7 @@ export default function Magnetic({ children }) {
       xTo(x * 0.35);
       yTo(y * 0.35);
     };
-    ``;
+
     const handleMouseLeave = () => {
       xTo(0);
       yTo(0);

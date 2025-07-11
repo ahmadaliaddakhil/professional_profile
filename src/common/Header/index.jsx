@@ -5,11 +5,11 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import styles from "./style.module.scss";
 import { usePathname } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
-import Nav from "../../../common/nav";
+import Nav from "../nav";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Rounded from "../../../common/RoundedButton";
-import Magnetic from "../../../common/Magnetic";
+import Rounded from "../RoundedButton";
+import Magnetic from "../Magnetic";
 
 export default function Header() {
   const header = useRef(null);
@@ -50,7 +50,7 @@ export default function Header() {
   return (
     <>
       <div ref={header} className={styles.header}>
-        <Link href="/" passHref>
+        <Link href="/" legacyBehavior>
           <Magnetic>
             <a className={styles.logo}>
               <p className={styles.copyright}>©</p>
