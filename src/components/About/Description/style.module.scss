@@ -1,0 +1,64 @@
+.main {
+  width: 100%;
+  height: 100vh;
+  overflow: auto;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 8vw;
+  text-align: center;
+}
+
+.title {
+  font-size: 40px;
+  line-height: 1.1;
+  font-weight: bold;
+  letter-spacing: -1px;
+  font-family: "Roslindale Display Condensed";
+}
+
+.green {
+  color: #4caf50;
+  font-family: "Roslindale Display Condensed";
+}
+
+.section {
+  min-height: 100vh;
+  padding: 0 8vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 3rem;
+
+  p {
+    font-size: 2rem;
+    max-width: 500px;
+    line-height: 1.4;
+    font-family: "Roslindale Display Condensed";
+  }
+
+  img {
+    max-width: 500px;
+    border-radius: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    flex-direction: column;
+
+    img {
+      width: 100%;
+      max-width: none;
+    }
+  }
+
+  .title {
+    font-size: 12vw;
+  }
+}

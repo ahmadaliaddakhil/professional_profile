@@ -1,7 +1,6 @@
 "use client";
 import styles from "./page.module.scss";
 import { useEffect, useState } from "react";
-import { AnimatePresence } from "framer-motion";
 import Preloader from "../components/Home/Preloader";
 import Landing from "../components/Home/Landing";
 import Projects from "../components/Home/Projects";
@@ -13,23 +12,38 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    (async () => {
-      const LocomotiveScroll = (await import("locomotive-scroll")).default;
-      const locomotiveScroll = new LocomotiveScroll();
+    const hasVisited = sessionStorage.getItem("hasVisited");
 
-      setTimeout(() => {
+    if (!hasVisited) {
+      sessionStorage.setItem("hasVisited", "true");
+      document.body.style.cursor = "wait";
+
+      const timeout = setTimeout(() => {
         setIsLoading(false);
         document.body.style.cursor = "default";
         window.scrollTo(0, 0);
+
+        import("locomotive-scroll").then((LocomotiveScroll) => {
+          new LocomotiveScroll.default();
+        });
       }, 2000);
-    })();
+
+      return () => clearTimeout(timeout);
+    } else {
+      setIsLoading(false);
+      import("locomotive-scroll").then((LocomotiveScroll) => {
+        new LocomotiveScroll.default();
+      });
+    }
   }, []);
 
-  return (
+  // ✅ Isolasi rendering Preloader supaya image lain tidak sempat muncul
+  return isLoading ? (
     <main className={styles.main}>
-      <AnimatePresence mode="wait">
-        {isLoading && <Preloader />}
-      </AnimatePresence>
+      <Preloader />
+    </main>
+  ) : (
+    <main className={styles.main}>
       <Landing />
       <Description />
       <Projects />

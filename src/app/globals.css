@@ -1,8 +1,65 @@
 body {
-  margin: 0px;
   font-family: var(--font-inter);
   overflow-x: hidden;
+  height: 100%;
+  width: 100%;
 }
 :root {
   --font-inter: "Inter", sans-serif;
+}
+html,
+body,
+* {
+  font-family: var(--font-inter), sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+::view-transition-old(page-container),
+::view-transition-new(page-container) {
+  animation-duration: 0.5s;
+  animation-timing-function: ease-in-out;
+}
+
+::view-transition-old(page-container) {
+  animation-name: fade-out;
+}
+::view-transition-new(page-container) {
+  animation-name: fade-in;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+::view-transition-group(root) {
+  z-index: auto !important;
+}
+
+::view-transition-image-pair(root) {
+  isolation: isolate;
+  will-change: transform, opacity, scale;
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 2;
+  animation: none !important;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+  animation: none !important;
+}
+
+.transition-overlay {
+  pointer-events: none;
 }

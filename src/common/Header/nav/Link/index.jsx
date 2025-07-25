@@ -1,7 +1,8 @@
 import styles from "./style.module.scss";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { slide, scale } from "../../../components/Home/Header/animation";
+import { slide, scale } from "../../animation";
+import Magnetic from "../../../Magnetic";
 
 export default function Index({ data, isActive, setSelectedIndicator }) {
   const { title, href, index } = data;
@@ -23,7 +24,9 @@ export default function Index({ data, isActive, setSelectedIndicator }) {
         animate={isActive ? "open" : "closed"}
         className={styles.indicator}
       ></motion.div>
-      <Link href={href}>{title}</Link>
+      <Magnetic>
+        <Link href={href}>{title}</Link>
+      </Magnetic>
     </motion.div>
   );
 }

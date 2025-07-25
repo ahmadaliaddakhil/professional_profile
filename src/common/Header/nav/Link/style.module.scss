@@ -1,0 +1,26 @@
+.link {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .linkText {
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+  }
+
+  .linkText span {
+    display: inline-block;
+    pointer-events: auto; // memastikan bisa diklik
+  }
+
+  .indicator {
+    width: 10px;
+    height: 10px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    left: -30px;
+  }
+}

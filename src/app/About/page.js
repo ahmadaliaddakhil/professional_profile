@@ -1,17 +1,17 @@
 "use client";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { AnimatePresence } from "framer-motion";
 import styles from "./page.module.scss";
-import Curve from "../../common/Curve";
+import Header from "../../components/About/Header";
+import PageWrapper from "../../common/PageWrapper";
 import Contact from "../../components/Contact";
 
-export default function Work() {
+export default function AboutPage() {
   return (
-    <main className={styles.main}>
-      <Curve>
-        <AnimatePresence mode="wait"></AnimatePresence>
+    <PageWrapper direction={1}>
+      <main className={styles.main}>
+        <Header />
         <Contact />
-      </Curve>
-    </main>
+      </main>
+    </PageWrapper>
   );
 }

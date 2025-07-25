@@ -9,10 +9,11 @@ $transition-bezier: cubic-bezier(0.76, 0, 0.24, 1);
   width: 100%;
   padding: 35px;
   box-sizing: border-box;
-  color: black;
+  color: white;
   font-weight: 500;
-  font-family: var(--font-inter);
+  font-family: var(--font-inter, "Inter", sans-serif);
   z-index: 2;
+  transition: color 0.3s ease, background-color 0.3s ease;
 
   @media screen and (max-width: 768px) {
     padding: 25px;
@@ -20,76 +21,45 @@ $transition-bezier: cubic-bezier(0.76, 0, 0.24, 1);
 
   .logo {
     display: flex;
-    align-items: center;
     cursor: pointer;
     text-decoration: none;
-    color: black;
-
+    color: white;
     p {
-      margin: 0;
-      transition: all 0.5s $transition-bezier;
+      margin: 0px;
+      transition: all 0.5s cubic-bezier(0.76, 0, 0.24, 1);
     }
-
     .name {
       display: flex;
       position: relative;
       overflow: hidden;
       white-space: nowrap;
       margin-left: 5px;
-      transition: all 0.5s $transition-bezier;
-
+      transition: all 0.5s cubic-bezier(0.76, 0, 0.24, 1);
       p {
         position: relative;
-        transition: transform 0.5s $transition-bezier;
-
+        transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
         &:nth-of-type(2) {
           padding-left: 0.3em;
         }
-
         &:nth-of-type(3) {
           position: absolute;
           left: 120px;
           padding-left: 0.3em;
         }
       }
-
-      @media screen and (max-width: 768px) {
-        flex-direction: column;
-        white-space: normal;
-        align-items: flex-start;
-
-        p {
-          font-size: 0.9rem;
-        }
-
-        p:nth-of-type(3) {
-          position: relative;
-          left: auto;
-          padding-left: 0;
-        }
-
-        p + p {
-          margin-top: 2px;
-        }
-      }
     }
-
     &:hover {
       .copyright {
         transform: rotate(360deg);
       }
-
       .name {
         padding-right: 30px;
-
         .codeBy {
           transform: translateX(-100%);
         }
-
         .Ahmad {
           transform: translateX(-65px);
         }
-
         .AliAddakhil {
           transform: translateX(-65px);
         }
@@ -117,7 +87,7 @@ $transition-bezier: cubic-bezier(0.76, 0, 0.24, 1);
         padding: 15px;
         cursor: pointer;
         text-decoration: none;
-        color: black;
+        color: white;
         transition: opacity 0.3s ease;
 
         &:hover {
@@ -132,22 +102,23 @@ $transition-bezier: cubic-bezier(0.76, 0, 0.24, 1);
           left: 50%;
           width: 5px;
           height: 5px;
-          background-color: black;
+          background-color: white;
           border-radius: 50%;
           transform: scale(0) translateX(-50%);
           transition: transform 0.3s $transition-bezier;
           will-change: transform;
+          pointer-events: none;
         }
       }
     }
 
     .mobileMenuText {
       display: none;
-      color: black;
+      color: white;
       font-size: 18px;
       font-weight: 300;
       cursor: pointer;
-      font-family: var(--font-inter);
+      font-family: var(--font-inter, "Inter", sans-serif);
       letter-spacing: -0.03em;
       transition: opacity 0.3s ease;
 
@@ -210,7 +181,7 @@ $transition-bezier: cubic-bezier(0.76, 0, 0.24, 1);
       height: 1px;
       width: 40%;
       margin: auto;
-      background-color: black;
+      background-color: white;
       position: relative;
       transition: transform 0.3s $transition-bezier;
     }
@@ -233,6 +204,48 @@ $transition-bezier: cubic-bezier(0.76, 0, 0.24, 1);
     &::before {
       transform: rotate(-45deg);
       top: 0;
+    }
+  }
+}
+
+.dark {
+  .logo,
+  .logo p,
+  .nav .desktopNav .el,
+  .nav .mobileMenuText,
+  .burger::after,
+  .burger::before {
+    color: white;
+  }
+
+  .nav .desktopNav .el .indicator {
+    background-color: white;
+  }
+}
+
+.light {
+  .logo,
+  .logo p,
+  .nav .desktopNav .el,
+  .nav .mobileMenuText,
+  .burger::after,
+  .burger::before {
+    color: black;
+  }
+
+  .nav .desktopNav .el .indicator {
+    background-color: black;
+  }
+
+  .headerButtonContainer .button {
+    background-color: #f0f0f0;
+
+    &:hover {
+      background-color: lighten(#f0f0f0, 10%);
+    }
+
+    &.active {
+      background-color: #334bd3;
     }
   }
 }

@@ -1,6 +1,6 @@
 import styles from "./style.module.scss";
 import { motion } from "framer-motion";
-import Magnetic from "../../Magnetic"; // Pastikan path sudah benar
+import Magnetic from "../../../Magnetic";
 
 export default function Footer() {
   return (

@@ -1,10 +1,10 @@
 "use client";
-
 import "./globals.css";
 import { Inter } from "next/font/google";
-import Header from "../components/Home/Header";
-import { AnimatePresence } from "framer-motion";
-import { usePathname } from "next/navigation";
+import Header from "../common/Header";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import TransitionLayout from "../common/TransitionOverlay";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -12,21 +12,36 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-export const metadata = {
-  title: "Ali Addakhil - Portfolio",
-  description: "Freelance Designer & Developer Portfolio",
-};
-
 export default function RootLayout({ children }) {
-  const pathname = usePathname(); // Get current route
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [nextUrl, setNextUrl] = useState(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (nextUrl) {
+      setIsTransitioning(true);
+      const timeout = setTimeout(() => {
+        router.push(nextUrl);
+        setIsTransitioning(false);
+        setNextUrl(null);
+      }, 1200); // durasi animasi transition
+
+      return () => clearTimeout(timeout);
+    }
+  }, [nextUrl]);
+
+  const handleNavigate = (url) => {
+    if (url !== window.location.pathname) {
+      setNextUrl(url);
+    }
+  };
 
   return (
     <html lang="en">
       <body className={`${inter.className} ${inter.variable}`}>
-        <Header />
-        <AnimatePresence mode="wait">
-          <div key={pathname}>{children}</div>
-        </AnimatePresence>
+        <Header onNavigate={handleNavigate} />
+        <TransitionLayout isActive={isTransitioning} nextRoute={nextUrl} />
+        <div id="page-container">{children}</div>
       </body>
     </html>
   );

@@ -5,17 +5,19 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import styles from "./style.module.scss";
 import { usePathname } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
-import Nav from "../nav";
+import Nav from "./nav";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Rounded from "../RoundedButton";
 import Magnetic from "../Magnetic";
 
-export default function Header() {
+export default function Header({ onNavigate }) {
   const header = useRef(null);
+  const button = useRef(null);
   const [isActive, setIsActive] = useState(false);
   const pathname = usePathname();
-  const button = useRef(null);
+
+  const isDark = pathname === "/" || pathname.toLowerCase() === "/contact";
 
   useEffect(() => {
     if (isActive) setIsActive(false);
@@ -23,74 +25,79 @@ export default function Header() {
 
   useLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
-    gsap.to(button.current, {
-      scrollTrigger: {
-        trigger: document.documentElement,
-        start: 0,
-        end: window.innerHeight,
-        onLeave: () => {
-          gsap.to(button.current, {
-            scale: 1,
-            duration: 0.25,
-            ease: "power1.out",
-          });
+
+    const ctx = gsap.context(() => {
+      gsap.to(button.current, {
+        scrollTrigger: {
+          trigger: document.documentElement,
+          start: 0,
+          end: window.innerHeight,
+          onLeave: () => {
+            gsap.to(button.current, {
+              scale: 1,
+              duration: 0.25,
+              ease: "power1.out",
+            });
+          },
+          onEnterBack: () => {
+            gsap.to(button.current, {
+              scale: 0,
+              duration: 0.25,
+              ease: "power1.out",
+            });
+            setIsActive(false);
+          },
         },
-        onEnterBack: () => {
-          gsap.to(button.current, {
-            scale: 0,
-            duration: 0.25,
-            ease: "power1.out",
-          });
-          setIsActive(false);
-        },
-      },
-    });
+      });
+    }, header);
+
+    return () => ctx.revert(); // Cleanup
   }, []);
 
   return (
     <>
-      <div ref={header} className={styles.header}>
-        <Link href="/" legacyBehavior>
-          <Magnetic>
-            <a className={styles.logo}>
-              <p className={styles.copyright}>©</p>
-              <div className={styles.name}>
-                <p className={styles.codeBy}>Code by</p>
-                <p className={styles.Ahmad}>Ahmad </p>
-                <p className={styles.AliAddakhil}>Ali Addakhil</p>
-              </div>
-            </a>
-          </Magnetic>
-        </Link>
+      <div
+        ref={header}
+        className={`${styles.header} ${isDark ? styles.dark : styles.light}`}
+      >
+        <Magnetic>
+          <Link
+            href="/"
+            className={styles.logo}
+            onClick={(e) => {
+              e.preventDefault();
+              onNavigate("/");
+            }}
+          >
+            <p className={styles.copyright}>©</p>
+            <div className={styles.name}>
+              <p className={styles.codeBy}>Code by</p>
+              <p className={styles.Ahmad}>Ahmad</p>
+              <p className={styles.AliAddakhil}>Ali Addakhil</p>
+            </div>
+          </Link>
+        </Magnetic>
 
         <div className={styles.nav}>
           <div className={styles.desktopNav}>
-            <Link href="/Work" passHref>
-              <Magnetic>
-                <a className={styles.el}>
-                  Work
-                  <div className={styles.indicator}></div>
-                </a>
-              </Magnetic>
-            </Link>
-
-            <Link href="/About" passHref>
-              <Magnetic>
-                <a className={styles.el}>
-                  About
-                  <div className={styles.indicator}></div>
-                </a>
-              </Magnetic>
-            </Link>
-
-            <Link href="/Contact" passHref>
-              <Magnetic>
-                <a className={styles.el}>
-                  Contact
-                  <div className={styles.indicator}></div>
-                </a>
-              </Magnetic>
-            </Link>
+            {["Work", "About", "Contact"].map((page) => {
+              const href = `/${page}`;
+              return (
+                <Magnetic key={page}>
+                  <Link
+                    href={href}
+                    className={styles.el}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onNavigate(href);
+                    }}
+                  >
+                    {page}
+                    <div className={styles.indicator}></div>
+                  </Link>
+                </Magnetic>
+              );
+            })}
           </div>
 
           <div

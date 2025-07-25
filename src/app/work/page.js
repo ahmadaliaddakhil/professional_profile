@@ -1,22 +1,15 @@
 "use client";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { AnimatePresence } from "framer-motion";
 import styles from "./page.module.scss";
-import Projectdetail from "../../../components/Work/Projectdetail";
-import Projectlist from "../../../components/Work/projectlist";
-import Curve from "../../../common/Curve";
-import Header from "../../components/Home/Header";
+import Header from "../../common/Header";
+import Contact from "../../components/Contact";
+import PageWrapper from "../../common/PageWrapper";
 
 export default function Work() {
   return (
-    <main className={styles.main}>
-      <Curve backgroundColor={"#B0AD98"}>
-        <AnimatePresence mode="wait">
-          <Component key={router.route} {...pageProps} />
-        </AnimatePresence>
-        <Header />
-        <Projectdetail />
-        <Projectlist />
-      </Curve>
-    </main>
+    <PageWrapper direction={-1}>
+      <main className={styles.main}></main>
+    </PageWrapper>
   );
 }
