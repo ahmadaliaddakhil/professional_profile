@@ -1,0 +1,88 @@
+.project {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 50px 0;
+  margin: 0;
+  border-top: 1px solid #c9c9c9;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  .mobile {
+    display: none;
+  }
+
+  .desktop {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px 100px;
+
+    h2 {
+      font-size: 75px;
+      margin: 0;
+      font-weight: 400;
+      transition: all 0.4s;
+      line-height: 1;
+      letter-spacing: -2px;
+    }
+    p {
+      font-size: 18px;
+      transition: all 0.4s;
+      font-weight: 300;
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 20px 0;
+    .desktop {
+      display: none;
+    }
+    .mobile {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .info {
+      padding: 0;
+      width: 100%;
+      h2 {
+        font-size: 35px;
+        font-weight: 400;
+        margin-bottom: 10px;
+      }
+      .details {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        font-weight: 300;
+        .year {
+          color: gray;
+        }
+      }
+    }
+  }
+
+  &:last-of-type {
+    border-bottom: 1px solid #c9c9c9;
+  }
+
+  .imageWrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9; /* Atau bisa pakai 4 / 3, tergantung tampilan yang diinginkan */
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  .imageFill {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* ✅ Kunci utama */
+    object-position: center; /* Bisa diatur 'top', 'center', atau 'bottom' */
+    display: block;
+  } /* ✅ untuk Image fill */
+}
