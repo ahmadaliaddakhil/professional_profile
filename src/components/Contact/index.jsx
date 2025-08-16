@@ -1,12 +1,24 @@
+"use client";
+import { motion, useScroll, useTransform } from "framer-motion";
 import styles from "./style.module.scss";
-import Image from "next/image";
+import Magnetic from "../../common/Magnetic";
 import Rounded from "../../common/RoundedButton";
 import { useRef, useState, useEffect } from "react";
-import { useScroll, motion, useTransform, useSpring } from "framer-motion";
-import Magnetic from "../../common/Magnetic";
+import Image from "next/image";
 
-export default function index() {
+export default function Contact() {
   const [currentTime, setCurrentTime] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    organization: "",
+    services: "",
+    message: "",
+  });
+
+  const [errors, setErrors] = useState({});
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const updateTime = () => {
@@ -21,13 +33,8 @@ export default function index() {
       setCurrentTime(`${indonesiaTime} WIB`);
     };
 
-    // Update time immediately
     updateTime();
-
-    // Update time every second
     const interval = setInterval(updateTime, 1000);
-
-    // Cleanup interval on component unmount
     return () => clearInterval(interval);
   }, []);
 
@@ -39,74 +46,267 @@ export default function index() {
   const x = useTransform(scrollYProgress, [0, 1], [0, 100]);
   const y = useTransform(scrollYProgress, [0, 1], [-500, 0]);
   const rotate = useTransform(scrollYProgress, [0, 1], [120, 90]);
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.name.trim()) newErrors.name = "Name is required";
+    if (!formData.email.trim()) newErrors.email = "Email is required";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
+      newErrors.email = "Invalid email format";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+
+    setLoading(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        setSubmitted(true);
+        alert("Message sent successfully");
+        setFormData({
+          name: "",
+          email: "",
+          organization: "",
+          services: "",
+          message: "",
+        });
+      } else {
+        alert(data.error || "Something went wrong");
+      }
+    } catch (error) {
+      alert("An unexpected error occurred");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <motion.div style={{ y }} ref={container} className={styles.contact}>
-      <div className={styles.body}>
-        <div className={styles.title}>
-          <span>
-            <div className={styles.imageContainer}>
-              <Image fill={true} alt={"image"} src={`/images/cyber-punk.png`} />
+    <main className={styles.contact} ref={container}>
+      <div className={styles.left}>
+        <h1 className={styles.heading}>
+          Let&apos;s start a <br /> project <br /> together
+        </h1>
+
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <div className={styles.inputGroup}>
+            <span className={styles.number}>01</span>
+            <div className={styles.inputField}>
+              <label>What&apos;s your name?</label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Ahmad Ali *"
+                required
+              />
+              {errors.name && (
+                <small className={styles.error}>{errors.name}</small>
+              )}
             </div>
-            <h2>Let's work</h2>
-          </span>
-          <h2>together</h2>
+          </div>
+
+          <div className={styles.inputGroup}>
+            <span className={styles.number}>02</span>
+            <div className={styles.inputField}>
+              <label>What&apos;s your email?</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="ahmadaliaddakhil@gmail.com *"
+                required
+              />
+              {errors.email && (
+                <small className={styles.error}>{errors.email}</small>
+              )}
+            </div>
+          </div>
+
+          <div className={styles.inputGroup}>
+            <span className={styles.number}>03</span>
+            <div className={styles.inputField}>
+              <label>What&apos;s the name of your organization?</label>
+              <input
+                type="text"
+                name="organization"
+                value={formData.organization}
+                onChange={handleChange}
+                placeholder="Ahmad & Ali ®"
+              />
+            </div>
+          </div>
+
+          <div className={styles.inputGroup}>
+            <span className={styles.number}>04</span>
+            <div className={styles.inputField}>
+              <label>What services are you looking for?</label>
+              <input
+                type="text"
+                name="services"
+                value={formData.services}
+                onChange={handleChange}
+                placeholder="Web Design, Web Development ..."
+              />
+            </div>
+          </div>
+
+          <div className={styles.inputGroup}>
+            <span className={styles.number}>05</span>
+            <div className={styles.inputField}>
+              <label>Your message</label>
+              <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                placeholder="Hello Ali, can you help me with ..."
+              />
+            </div>
+          </div>
+
           <motion.div style={{ x }} className={styles.buttonContainer}>
             <Rounded backgroundColor={"#334BD3"} className={styles.button}>
-              <p>Get in touch</p>
+              <button
+                className={styles.sendButton}
+                type="submit"
+                disabled={loading}
+              >
+                <p>{loading ? "Sending..." : "Send it!"}</p>
+              </button>
             </Rounded>
           </motion.div>
-          <motion.svg
-            style={{ rotate, scale: 2 }}
-            width="9"
-            height="9"
-            viewBox="0 0 9 9"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M8 8.5C8.27614 8.5 8.5 8.27614 8.5 8L8.5 3.5C8.5 3.22386 8.27614 3 8 3C7.72386 3 7.5 3.22386 7.5 3.5V7.5H3.5C3.22386 7.5 3 7.72386 3 8C3 8.27614 3.22386 8.5 3.5 8.5L8 8.5ZM0.646447 1.35355L7.64645 8.35355L8.35355 7.64645L1.35355 0.646447L0.646447 1.35355Z"
-              fill="white"
-            />
-          </motion.svg>
-        </div>
-        <div className={styles.nav}>
-          <Rounded>
-            <p>ahmadaliaddakhil@gmail.com</p>
-          </Rounded>
-          <Rounded>
-            <p>+62 857 4950 4549</p>
-          </Rounded>
-        </div>
-        <div className={styles.info}>
+        </form>
+      </div>
+
+      <div className={styles.right}>
+        {/* ✅ pakai next/image biar lebih optimal */}
+        <Image
+          width={400}
+          height={300}
+          src="/images/background-punk.jpg"
+          alt="Profile"
+          className={styles.avatar}
+        />
+
+        <div className={styles.details}>
           <div>
-            <span>
-              <h3>Version</h3>
-              <p>2025 © Edition</p>
-            </span>
-            <span>
-              <h3>Local Time</h3>
-              <p>{currentTime}</p>
-            </span>
+            <h4>CONTACT DETAILS</h4>
+            <Magnetic>
+              <p>
+                <a
+                  href="mailto:ahmadaliaddakhil@gmail.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.anchorLink}
+                >
+                  ahmadaliaddakhil@gmail.com
+                </a>
+              </p>
+            </Magnetic>
+            <Magnetic>
+              <p>
+                <a
+                  href="https://wa.me/6288741076997?text=Hello%20Ahmad%20Ali,%20I%20need%20your%20help..."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  +62 887 4107 6997
+                </a>
+              </p>
+            </Magnetic>
           </div>
+
           <div>
-            <span>
-              <h3>socials</h3>
-              <Magnetic>
-                <p>Awwwards</p>
-              </Magnetic>
-            </span>
+            <h4>BUSINESS DETAILS</h4>
+            <p>Ahmad Ali A.</p>
+            <p>Location: Indonesia</p>
+          </div>
+
+          <div>
+            <h4>SOCIALS</h4>
             <Magnetic>
-              <p>Instagram</p>
+              <p>
+                <a
+                  href="https://simt.kemdikbud.go.id/resume?id=_ODCXCa622HvF09fG9eGTg&name=ahmad-ali-addakhil"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Awwwards
+                </a>
+              </p>
             </Magnetic>
             <Magnetic>
-              <p>Dribbble</p>
+              <p>
+                <a
+                  href="https://www.instagram.com/ali.addh_"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Instagram
+                </a>
+              </p>
             </Magnetic>
             <Magnetic>
-              <p>Linkedin</p>
+              <p>
+                <a
+                  href="https://www.linkedin.com/in/ahmadaliaddakhil"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  LinkedIn
+                </a>
+              </p>
             </Magnetic>
           </div>
         </div>
       </div>
-    </motion.div>
+
+      <div className={styles.info}>
+        <div>
+          <span>
+            <h3>Version</h3>
+            <p>2025 © Edition</p>
+          </span>
+          <span>
+            <h3>Local Time</h3>
+            <p>{currentTime}</p>
+          </span>
+        </div>
+        <div>
+          <span>
+            <h3>Socials</h3>
+            <Magnetic>
+              <p>Awwwards</p>
+            </Magnetic>
+          </span>
+          <Magnetic>
+            <p>Instagram</p>
+          </Magnetic>
+          <Magnetic>
+            <p>Dribbble</p>
+          </Magnetic>
+          <Magnetic>
+            <p>LinkedIn</p>
+          </Magnetic>
+        </div>
+      </div>
+    </main>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import styles from "./style.module.scss";
-import { useRef, useLayoutEffect } from "react";
+import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import { slideUp } from "./animation";
@@ -12,10 +12,14 @@ export default function Home() {
   const secondText = useRef(null);
   const slider = useRef(null);
   const arrowIcon = useRef(null);
+
   let xPercent = 0;
   let direction = -1;
+  let rafId = null; // simpan requestAnimationFrame id
 
-  useLayoutEffect(() => {
+  useEffect(() => {
+    if (typeof window === "undefined") return; // pastikan client
+
     gsap.registerPlugin(ScrollTrigger);
 
     // Scroll horizontal untuk slider
@@ -42,22 +46,28 @@ export default function Home() {
       scale: 1.2,
     });
 
-    requestAnimationFrame(animate);
+    const animate = () => {
+      if (xPercent < -100) {
+        xPercent = 0;
+      } else if (xPercent > 0) {
+        xPercent = -100;
+      }
+
+      gsap.set(firstText.current, { xPercent });
+      gsap.set(secondText.current, { xPercent });
+
+      xPercent += 0.05 * direction;
+      rafId = requestAnimationFrame(animate);
+    };
+
+    rafId = requestAnimationFrame(animate);
+
+    // cleanup biar gak memory leak
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      ScrollTrigger.getAll().forEach((st) => st.kill());
+    };
   }, []);
-
-  const animate = () => {
-    if (xPercent < -100) {
-      xPercent = 0;
-    } else if (xPercent > 0) {
-      xPercent = -100;
-    }
-
-    gsap.set(firstText.current, { xPercent });
-    gsap.set(secondText.current, { xPercent });
-
-    xPercent += 0.05 * direction;
-    requestAnimationFrame(animate);
-  };
 
   return (
     <main className={styles.landing}>

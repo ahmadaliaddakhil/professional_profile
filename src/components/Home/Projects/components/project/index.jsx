@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./style.module.scss";
 import Image from "next/image";
 
-export default function index({ index, title, year, src, manageModal }) {
+export default function Project({ idx, title, year, src, manageModal }) {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -15,17 +15,18 @@ export default function index({ index, title, year, src, manageModal }) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const shouldRender = !isMobile || index < 2; // Render semua gambar di desktop, hanya 2 gambar di mobile
+  // Render semua gambar di desktop, hanya 2 gambar di mobile
+  const shouldRender = !isMobile || idx < 2;
 
   return (
     shouldRender && (
       <div
         className={styles.project}
         onMouseEnter={(e) => {
-          manageModal(true, index, e.clientX, e.clientY);
+          manageModal(true, idx, e.clientX, e.clientY);
         }}
         onMouseLeave={(e) => {
-          manageModal(false, index, e.clientX, e.clientY);
+          manageModal(false, idx, e.clientX, e.clientY);
         }}
       >
         <div className={styles.desktop}>

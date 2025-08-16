@@ -6,7 +6,7 @@ import Landing from "../components/Home/Landing";
 import Projects from "../components/Home/Projects";
 import Description from "../components/Home/Description";
 import SlidingImages from "../components/Home/SlidingImages";
-import Contact from "../components/Contact";
+import Contact from "../common/Contact";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);

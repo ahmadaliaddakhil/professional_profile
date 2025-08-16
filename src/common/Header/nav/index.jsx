@@ -9,25 +9,13 @@ import Footer from "./Footer";
 import Magnetic from "../../Magnetic";
 
 const navItems = [
-  {
-    title: "Home",
-    href: "/",
-  },
-  {
-    title: "Work",
-    href: "/Work",
-  },
-  {
-    title: "About",
-    href: "/About",
-  },
-  {
-    title: "Contact",
-    href: "/Contact",
-  },
+  { title: "Home", href: "/" },
+  { title: "Work", href: "/Work" },
+  { title: "About", href: "/About" },
+  { title: "Contact", href: "/Contact" },
 ];
 
-export default function index() {
+export default function NavMenu() {
   const pathname = usePathname();
   const [selectedIndicator, setSelectedIndicator] = useState(pathname);
 
@@ -49,18 +37,15 @@ export default function index() {
           <div className={styles.header}>
             <p>Navigation</p>
           </div>
-          {navItems.map((data, index) => {
-            return (
-              <Magnetic>
-                <Link
-                  key={index}
-                  data={{ ...data, index }}
-                  isActive={selectedIndicator == data.href}
-                  setSelectedIndicator={setSelectedIndicator}
-                ></Link>
-              </Magnetic>
-            );
-          })}
+          {navItems.map((data, index) => (
+            <Magnetic key={index}>
+              <Link
+                data={{ ...data, index }}
+                isActive={selectedIndicator === data.href}
+                setSelectedIndicator={setSelectedIndicator}
+              />
+            </Magnetic>
+          ))}
         </div>
         <Magnetic>
           <Footer />

@@ -55,6 +55,9 @@ const RoundedButton = forwardRef(
   }
 );
 
+// ✅ tambahkan displayName agar ESLint tidak error
+RoundedButton.displayName = "RoundedButton";
+
 export default function Index(props) {
   return (
     <Magnetic>

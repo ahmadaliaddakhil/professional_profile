@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import styles from "./style.module.scss";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -93,23 +94,38 @@ export default function Header() {
 
         {/* Cards */}
         <div id="card-1" className={`${styles.card} ${styles.card1}`}>
-          <img src="/images/c2.jpg" alt="Card 1" />
+          <Image src="/images/c2.jpg" alt="Card 1" width={400} height={300} />
         </div>
         <div id="card-2" className={`${styles.card} ${styles.card2}`}>
-          <img src="/images/panda.jpg" alt="Card 2" />
+          <Image
+            src="/images/panda.jpg"
+            alt="Card 2"
+            width={400}
+            height={300}
+          />
         </div>
         <div id="card-3" className={`${styles.card} ${styles.card3}`}>
-          <img src="/images/powell.jpg" alt="Card 3" />
+          <Image
+            src="/images/powell.jpg"
+            alt="Card 3"
+            width={400}
+            height={300}
+          />
         </div>
         <div id="card-4" className={`${styles.card} ${styles.card4}`}>
-          <img src="/images/google.jpg" alt="Card 4" />
+          <Image
+            src="/images/google.jpg"
+            alt="Card 4"
+            width={400}
+            height={300}
+          />
         </div>
       </div>
 
       <div style={{ height: "60vh" }} />
       <section className={styles.outro}>
         <h1>
-          I Mean, There's Nothing About Me When There's No Job. <br />
+          I Mean, There&apos;s Nothing About Me When There&apos;s No Job. <br />
           So... Please Give Me One.
         </h1>
       </section>
@@ -121,13 +137,15 @@ export default function Header() {
           data-bgcolor="#111827"
           data-textcolor="#A7F3D0"
         >
-          <p className={styles.title}>I’m Ali — The Mind Behind The Pixels.</p>
+          <p className={styles.title}>
+            I&apos;m Ali — The Mind Behind The Pixels.
+          </p>
         </section>
 
         <section
           className={styles.section}
-          data-bgcolor="#c1d2c5  "
-          data-textcolor="#2c2c2c  "
+          data-bgcolor="#c1d2c5"
+          data-textcolor="#2c2c2c"
         >
           <div className={styles.content}>
             <p>
@@ -139,8 +157,8 @@ export default function Header() {
 
         <section
           className={styles.section}
-          data-bgcolor="#1d1f2f "
-          data-textcolor="#ffe7c4 "
+          data-bgcolor="#1d1f2f"
+          data-textcolor="#ffe7c4"
         >
           <div className={styles.content}>
             <p>
@@ -154,7 +172,7 @@ export default function Header() {
         <section
           className={styles.section}
           data-bgcolor="#032F35"
-          data-textcolor="#e2f4f1 "
+          data-textcolor="#e2f4f1"
         >
           <div className={styles.content}>
             <p>
@@ -174,7 +192,7 @@ export default function Header() {
             <p>
               The full package — <br /> From the first sketch to the final
               launch, I handle it all. My blend of design intuition and
-              development skill ensures your site isn’t just beautiful, but
+              development skill ensures your site isn&apos;t just beautiful, but
               powerful.
             </p>
           </div>

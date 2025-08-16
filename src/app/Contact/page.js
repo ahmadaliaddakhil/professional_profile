@@ -2,11 +2,14 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import styles from "./page.module.scss";
 import PageWrapper from "../../common/PageWrapper";
+import Contact from "../../components/Contact";
 
 export default function Work() {
   return (
     <PageWrapper>
-      <main className={styles.main}></main>
+      <main className={styles.main}>
+        <Contact />
+      </main>
     </PageWrapper>
   );
 }

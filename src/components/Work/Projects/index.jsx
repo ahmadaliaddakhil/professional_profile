@@ -13,34 +13,18 @@ const allCategories = ["All", "Design", "Development"];
 const projects = [
   {
     id: "c2",
-    title: "C2 Montreal",
-    src: "c2montreal.png",
+    title: "Portfo V1",
+    src: "portfov1.png",
     color: "#000000",
-    year: "2024",
+    year: "2023",
     category: ["Design", "Development"],
   },
   {
     id: "off",
-    title: "Office Studio",
-    src: "officestudio.png",
+    title: "ASVARAKA 42",
+    src: "asvaraka42.png",
     color: "#8C8C8C",
-    year: "2024",
-    category: ["Design"],
-  },
-  {
-    id: "loc",
-    title: "Locomotive",
-    src: "locomotive.png",
-    color: "#EFE8D3",
-    year: "2024",
-    category: ["Development"],
-  },
-  {
-    id: "sil",
-    title: "Silencio",
-    src: "silencio.png",
-    color: "#706D63",
-    year: "2024",
+    year: "2025",
     category: ["Design", "Development"],
   },
 ];
@@ -153,9 +137,8 @@ export default function Projects() {
 
         <div className={styles.filters}>
           {allCategories.map((cat) => (
-            <Magnetic>
+            <Magnetic key={cat}>
               <button
-                key={cat}
                 className={`${activeCategory === cat ? styles.active : ""}`}
                 onClick={() => setActiveCategory(cat)}
               >

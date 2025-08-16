@@ -19,8 +19,9 @@ export default function Header({ onNavigate }) {
 
   const isDark = pathname === "/" || pathname.toLowerCase() === "/contact";
 
+  // ✅ Perbaikan: reset menu saat pathname berubah tanpa warning deps
   useEffect(() => {
-    if (isActive) setIsActive(false);
+    setIsActive(false);
   }, [pathname]);
 
   useLayoutEffect(() => {

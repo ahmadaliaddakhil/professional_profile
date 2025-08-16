@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
 
       return () => clearTimeout(timeout);
     }
-  }, [nextUrl]);
+  }, [nextUrl, router]);
 
   const handleNavigate = (url) => {
     if (url !== window.location.pathname) {
