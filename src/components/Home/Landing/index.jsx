@@ -13,12 +13,13 @@ export default function Home() {
   const slider = useRef(null);
   const arrowIcon = useRef(null);
 
-  let xPercent = 0;
-  let direction = -1;
-  let rafId = null; // simpan requestAnimationFrame id
+  // pakai useRef untuk nilai mutable
+  const xPercent = useRef(0);
+  const direction = useRef(-1);
+  const rafId = useRef(null);
 
   useEffect(() => {
-    if (typeof window === "undefined") return; // pastikan client
+    if (typeof window === "undefined") return;
 
     gsap.registerPlugin(ScrollTrigger);
 
@@ -29,7 +30,7 @@ export default function Home() {
         scrub: 0.25,
         start: 0,
         end: window.innerHeight,
-        onUpdate: (e) => (direction = e.direction * -1),
+        onUpdate: (e) => (direction.current = e.direction * -1),
       },
       x: "-500px",
     });
@@ -47,24 +48,23 @@ export default function Home() {
     });
 
     const animate = () => {
-      if (xPercent < -100) {
-        xPercent = 0;
-      } else if (xPercent > 0) {
-        xPercent = -100;
+      if (xPercent.current < -100) {
+        xPercent.current = 0;
+      } else if (xPercent.current > 0) {
+        xPercent.current = -100;
       }
 
-      gsap.set(firstText.current, { xPercent });
-      gsap.set(secondText.current, { xPercent });
+      gsap.set(firstText.current, { xPercent: xPercent.current });
+      gsap.set(secondText.current, { xPercent: xPercent.current });
 
-      xPercent += 0.05 * direction;
-      rafId = requestAnimationFrame(animate);
+      xPercent.current += 0.05 * direction.current;
+      rafId.current = requestAnimationFrame(animate);
     };
 
-    rafId = requestAnimationFrame(animate);
+    rafId.current = requestAnimationFrame(animate);
 
-    // cleanup biar gak memory leak
     return () => {
-      if (rafId) cancelAnimationFrame(rafId);
+      if (rafId.current) cancelAnimationFrame(rafId.current);
       ScrollTrigger.getAll().forEach((st) => st.kill());
     };
   }, []);
@@ -80,6 +80,7 @@ export default function Home() {
             <span>Indonesia</span>
           </div>
           <div className={styles.globeIcon}>
+            {/* Globe Icon */}
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path
                 d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
