@@ -34,17 +34,6 @@ export default function Footer() {
         <Magnetic>
           <p>
             <a
-              href="https://www.dribbble.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Dribbble
-            </a>
-          </p>
-        </Magnetic>
-        <Magnetic>
-          <p>
-            <a
               href="https://www.linkedin.com"
               target="_blank"
               rel="noopener noreferrer"

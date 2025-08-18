@@ -6,12 +6,6 @@
   flex-direction: column;
   margin-top: 180px;
 
-  @media (max-width: 768px) {
-    padding-left: 20px;
-    padding-right: 20px;
-    margin-bottom: 400px;
-  }
-
   .recentwork {
     width: 100%;
     max-width: 1400px;
@@ -66,7 +60,6 @@
     justify-content: center;
   }
 
-  /* ✅ wrapper untuk Image fill */
   .modalImgWrap {
     position: relative;
     width: 300px;
@@ -92,32 +85,79 @@
   .cursorLabel {
     background-color: transparent;
   }
+
+  @media (max-width: 768px) {
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 130px;
+    margin-bottom: 200px;
+
+    .recentwork {
+      margin-left: 0;
+      margin-bottom: 30px;
+      text-align: left;
+
+      h1 {
+        font-size: 3.2rem;
+        letter-spacing: -1px;
+        margin-bottom: 20px;
+      }
+    }
+
+    .body {
+      margin-bottom: 50px;
+    }
+
+    .modalContainer {
+      width: 90%;
+      height: auto;
+    }
+
+    .modalImgWrap {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9; /* biar proporsional */
+    }
+  }
 }
 
 .filters {
   display: flex;
   gap: 1rem;
-}
 
-.filters button {
-  padding: 2rem 3rem;
-  font-size: 1rem;
-  border-radius: 999px;
-  border: 1px solid #e0e0e0;
-  background: transparent;
-  color: #111;
-  font-weight: 400;
-  transition: all 0.3s ease;
-  white-space: nowrap;
-}
+  button {
+    padding: 2rem 3rem;
+    font-size: 1rem;
+    border-radius: 999px;
+    border: 1px solid #e0e0e0;
+    background: transparent;
+    color: #111;
+    font-weight: 400;
+    transition: all 0.3s ease;
+    white-space: nowrap;
 
-.filters button:hover {
-  transform: scale(1.03);
-  border-color: #000;
-}
+    &:hover {
+      transform: scale(1.03);
+      border-color: #000;
+    }
+  }
 
-.filters .active {
-  background: #111;
-  color: #fff;
-  border-color: #111;
+  .active {
+    background: #111;
+    color: #fff;
+    border-color: #111;
+  }
+
+  /* ✅ Tambahan mobile */
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.8rem;
+
+    button {
+      padding: 0.9rem 1.5rem;
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+    }
+  }
 }

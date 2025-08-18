@@ -141,6 +141,7 @@ export default function Projects() {
         ))}
       </div>
 
+      {/* 👇 desktop: modal + cursor */}
       {!isMobile && (
         <>
           <motion.div
@@ -191,6 +192,20 @@ export default function Projects() {
             View
           </motion.div>
         </>
+      )}
+
+      {/* 👇 mobile: circle effect */}
+      {isMobile && (
+        <motion.div
+          style={{ height: "80vh" }}
+          className={styles.circleContainer}
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          exit={{ scale: 0 }}
+          transition={{ duration: 0.6, ease: "easeInOut" }}
+        >
+          <div className={styles.circle}></div>
+        </motion.div>
       )}
     </main>
   );

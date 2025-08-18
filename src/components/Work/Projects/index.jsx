@@ -215,6 +215,18 @@ export default function Projects() {
           </motion.div>
         </>
       )}
+      {isMobile && (
+        <motion.div
+          style={{ height: "50vh" }}
+          className={styles.circleContainer}
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          exit={{ scale: 0 }}
+          transition={{ duration: 0.6, ease: "easeInOut" }}
+        >
+          <div className={styles.circle}></div>
+        </motion.div>
+      )}
     </main>
   );
 }

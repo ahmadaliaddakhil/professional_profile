@@ -125,7 +125,8 @@ export default function Header() {
       <div style={{ height: "60vh" }} />
       <section className={styles.outro}>
         <h1>
-          I Mean, There&apos;s Nothing About Me When There&apos;s No Job. <br />
+          I Mean, <br />
+          There&apos;s Nothing About Me When There&apos;s No Job. <br />
           So... Please Give Me One.
         </h1>
       </section>
