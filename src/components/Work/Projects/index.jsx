@@ -13,8 +13,8 @@ const allCategories = ["All", "Design", "Development"];
 const projects = [
   {
     id: "c2",
-    title: "Portfo V1",
-    src: "portfov1.png",
+    title: "Portfo V1™",
+    src: "projectportfo1.png",
     color: "#000000",
     year: "2023",
     category: ["Design", "Development"],
@@ -22,7 +22,7 @@ const projects = [
   {
     id: "off",
     title: "ASVARAKA 42",
-    src: "asvaraka42.png",
+    src: "project2.png",
     color: "#8C8C8C",
     year: "2025",
     category: ["Design", "Development"],

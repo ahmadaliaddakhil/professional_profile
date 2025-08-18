@@ -74,15 +74,15 @@
   .imageWrapper {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 9; /* Atau bisa pakai 4 / 3, tergantung tampilan yang diinginkan */
+    aspect-ratio: 16 / 9;
     overflow: hidden;
     margin-bottom: 10px;
   }
   .imageFill {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* ✅ Kunci utama */
-    object-position: center; /* Bisa diatur 'top', 'center', atau 'bottom' */
+    object-fit: cover;
+    object-position: center;
     display: block;
-  } /* ✅ untuk Image fill */
+  }
 }

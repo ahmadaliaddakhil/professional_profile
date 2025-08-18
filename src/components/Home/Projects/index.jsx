@@ -1,24 +1,27 @@
 "use client";
 import styles from "./style.module.scss";
-import { useState, useEffect, useRef } from "react";
-import Project from "./components/project";
+import { useState, useEffect, useRef, useCallback } from "react";
+import ProjectItem from "./components/project";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import Image from "next/image";
-import Rounded from "../../../common/RoundedButton";
 
 const projects = [
   {
-    title: "ASVARAKA 42",
-    src: "project2.png",
-    color: "#000000",
-    year: "2023",
-  },
-  {
+    id: "c2",
     title: "Portfo V1™",
     src: "projectportfo1.png",
-    color: "#1ed760",
+    color: "#000000",
+    year: "2023",
+    category: ["Design", "Development"],
+  },
+  {
+    id: "off",
+    title: "ASVARAKA 42",
+    src: "project2.png",
+    color: "#8C8C8C",
     year: "2025",
+    category: ["Design", "Development"],
   },
 ];
 
@@ -38,7 +41,7 @@ const scaleAnimation = {
   },
 };
 
-export default function Home() {
+export default function Projects() {
   const [modal, setModal] = useState({ active: false, index: 0 });
   const [isMobile, setIsMobile] = useState(false);
 
@@ -56,90 +59,87 @@ export default function Home() {
   let yMoveCursorLabel = useRef(null);
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    const mql = window.matchMedia("(max-width: 768px)");
+    const set = () => setIsMobile(mql.matches);
+    set();
+    mql.addEventListener("change", set);
+    return () => mql.removeEventListener("change", set);
   }, []);
 
   useEffect(() => {
-    // Move modal
-    if (!isMobile) {
-      xMoveContainer.current = gsap.quickTo(modalContainer.current, "left", {
-        duration: 0.8,
-        ease: "power3",
-      });
-      yMoveContainer.current = gsap.quickTo(modalContainer.current, "top", {
-        duration: 0.8,
-        ease: "power3",
-      });
-      // Move cursor
-      xMoveCursor.current = gsap.quickTo(cursor.current, "left", {
-        duration: 0.5,
-        ease: "power3",
-      });
-      yMoveCursor.current = gsap.quickTo(cursor.current, "top", {
-        duration: 0.5,
-        ease: "power3",
-      });
-      // Move label
-      xMoveCursorLabel.current = gsap.quickTo(cursorLabel.current, "left", {
-        duration: 0.45,
-        ease: "power3",
-      });
-      yMoveCursorLabel.current = gsap.quickTo(cursorLabel.current, "top", {
-        duration: 0.45,
-        ease: "power3",
-      });
-    }
+    if (isMobile) return;
+    xMoveContainer.current = gsap.quickTo(modalContainer.current, "left", {
+      duration: 0.8,
+      ease: "power3",
+    });
+    yMoveContainer.current = gsap.quickTo(modalContainer.current, "top", {
+      duration: 0.8,
+      ease: "power3",
+    });
+    xMoveCursor.current = gsap.quickTo(cursor.current, "left", {
+      duration: 0.5,
+      ease: "power3",
+    });
+    yMoveCursor.current = gsap.quickTo(cursor.current, "top", {
+      duration: 0.5,
+      ease: "power3",
+    });
+    xMoveCursorLabel.current = gsap.quickTo(cursorLabel.current, "left", {
+      duration: 0.45,
+      ease: "power3",
+    });
+    yMoveCursorLabel.current = gsap.quickTo(cursorLabel.current, "top", {
+      duration: 0.45,
+      ease: "power3",
+    });
   }, [isMobile]);
 
-  const moveItems = (x, y) => {
-    if (!isMobile) {
-      xMoveContainer.current(x);
-      yMoveContainer.current(y);
-      xMoveCursor.current(x);
-      yMoveCursor.current(y);
-      xMoveCursorLabel.current(x);
-      yMoveCursorLabel.current(y);
-    }
-  };
+  const moveItems = useCallback(
+    (x, y) => {
+      if (isMobile) return;
+      xMoveContainer.current?.(x);
+      yMoveContainer.current?.(y);
+      xMoveCursor.current?.(x);
+      yMoveCursor.current?.(y);
+      xMoveCursorLabel.current?.(x);
+      yMoveCursorLabel.current?.(y);
+    },
+    [isMobile]
+  );
 
-  const manageModal = (active, index, x, y) => {
-    if (!isMobile) {
+  const manageModal = useCallback(
+    (isActive, idx, x, y) => {
+      if (isMobile) return;
       moveItems(x, y);
-      setModal({ active, index });
-    }
-  };
+      setModal({ active: isActive, index: idx });
+    },
+    [isMobile, moveItems]
+  );
 
   return (
     <main
-      onMouseMove={(e) => {
-        moveItems(e.clientX, e.clientY);
-      }}
       className={styles.projects}
+      onMouseMove={(e) => {
+        if (active && !isMobile) moveItems(e.clientX, e.clientY);
+      }}
     >
-      <div className={styles.recentwork}>
-        <h4>RECENTWORK</h4>
+      <div className={styles.header}>
+        <h4>RECENT WORK</h4>
       </div>
       <div className={styles.body}>
-        {projects.map((project, index) => (
-          <Project
-            index={index}
-            title={project.title}
-            year={project.year}
-            src={project.src}
+        {projects.map((p, i) => (
+          <ProjectItem
+            key={p.id}
+            itemIndex={i}
+            title={p.title}
+            year={p.year}
+            src={p.src}
+            isMobile={isMobile}
             manageModal={manageModal}
-            key={index}
+            category={p.category}
           />
         ))}
       </div>
-
-      <Rounded>
-        <p>More work</p>
-      </Rounded>
 
       {!isMobile && (
         <>
@@ -151,26 +151,26 @@ export default function Home() {
             className={styles.modalContainer}
           >
             <div
-              style={{ top: index * -100 + "%" }}
+              style={{ top: `${index * -100}%` }}
               className={styles.modalSlider}
             >
-              {projects.map((project, index) => {
-                const { src, color } = project;
-                return (
-                  <div
-                    className={styles.modal}
-                    style={{ backgroundColor: color }}
-                    key={`modal_${index}`}
-                  >
+              {projects.map((project, i) => (
+                <div
+                  className={styles.modal}
+                  style={{ backgroundColor: project.color }}
+                  key={`modal_${project.id}`}
+                >
+                  <div className={styles.modalImgWrap}>
                     <Image
-                      src={`/images/${src}`}
-                      width={300}
-                      height={0}
-                      alt="image"
+                      src={`/images/${project.src}`}
+                      alt={project.title}
+                      fill
+                      sizes="(max-width: 768px) 50vw, 400px"
+                      priority={i === 0}
                     />
                   </div>
-                );
-              })}
+                </div>
+              ))}
             </div>
           </motion.div>
 
@@ -180,8 +180,7 @@ export default function Home() {
             variants={scaleAnimation}
             initial="initial"
             animate={active ? "enter" : "closed"}
-          ></motion.div>
-
+          />
           <motion.div
             ref={cursorLabel}
             className={styles.cursorLabel}

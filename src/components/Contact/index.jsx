@@ -292,17 +292,38 @@ export default function Contact() {
           <span>
             <h3>Socials</h3>
             <Magnetic>
-              <p>Awwwards</p>
+              <p>
+                <a
+                  href="https://simt.kemdikbud.go.id/resume?id=_ODCXCa622HvF09fG9eGTg&name=ahmad-ali-addakhil"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Awwwards
+                </a>
+              </p>
             </Magnetic>
           </span>
           <Magnetic>
-            <p>Instagram</p>
+            <p>
+              <a
+                href="https://www.instagram.com/ali.addh_"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Instagram
+              </a>
+            </p>
           </Magnetic>
           <Magnetic>
-            <p>Dribbble</p>
-          </Magnetic>
-          <Magnetic>
-            <p>LinkedIn</p>
+            <p>
+              <a
+                href="https://www.linkedin.com/in/ahmadaliaddakhil"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                LinkedIn
+              </a>
+            </p>
           </Magnetic>
         </div>
       </div>

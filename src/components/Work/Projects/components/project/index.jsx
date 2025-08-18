@@ -10,13 +10,13 @@ export default function ProjectItem({
   src,
   manageModal,
   isMobile,
-  category = [], // ✅ Tambahkan props kategori default array
+  category = [],
 }) {
   const shouldRender = !isMobile || itemIndex < 2;
 
   if (!shouldRender) return null;
 
-  const renderCategory = category.join(" & "); // ✅ Gabungkan array kategori ke string
+  const renderCategory = category.join(" & ");
 
   return (
     <div
@@ -32,7 +32,7 @@ export default function ProjectItem({
     >
       <div className={styles.desktop}>
         <h2>{title}</h2>
-        <p>{renderCategory}</p> {/* ✅ tampilkan kategori */}
+        <p>{renderCategory}</p>
       </div>
 
       <div className={styles.mobile}>
@@ -50,7 +50,7 @@ export default function ProjectItem({
         <div className={styles.info}>
           <h2>{title}</h2>
           <div className={styles.details}>
-            <p>{renderCategory}</p> {/* ✅ tampilkan kategori */}
+            <p>{renderCategory}</p>
             <p className={styles.year}>{year}</p>
           </div>
         </div>

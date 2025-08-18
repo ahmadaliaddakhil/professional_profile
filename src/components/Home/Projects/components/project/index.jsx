@@ -1,58 +1,60 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styles from "./style.module.scss";
 import Image from "next/image";
 
-export default function Project({ idx, title, year, src, manageModal }) {
-  const [isMobile, setIsMobile] = useState(false);
+export default function ProjectItem({
+  itemIndex,
+  title,
+  year,
+  src,
+  manageModal,
+  isMobile,
+  category = [],
+}) {
+  const shouldRender = !isMobile || itemIndex < 2;
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  if (!shouldRender) return null;
 
-  // Render semua gambar di desktop, hanya 2 gambar di mobile
-  const shouldRender = !isMobile || idx < 2;
+  const renderCategory = category.join(" & ");
 
   return (
-    shouldRender && (
-      <div
-        className={styles.project}
-        onMouseEnter={(e) => {
-          manageModal(true, idx, e.clientX, e.clientY);
-        }}
-        onMouseLeave={(e) => {
-          manageModal(false, idx, e.clientX, e.clientY);
-        }}
-      >
-        <div className={styles.desktop}>
-          <h2>{title}</h2>
-          <p>Design & Development</p>
-        </div>
+    <div
+      className={styles.project}
+      role="button"
+      tabIndex={0}
+      onMouseEnter={(e) => {
+        if (!isMobile) manageModal(true, itemIndex, e.clientX, e.clientY);
+      }}
+      onMouseLeave={(e) => {
+        if (!isMobile) manageModal(false, itemIndex, e.clientX, e.clientY);
+      }}
+    >
+      <div className={styles.desktop}>
+        <h2>{title}</h2>
+        <p>{renderCategory}</p>
+      </div>
 
-        <div className={styles.mobile}>
-          <div className={styles.imageWrapper}>
+      <div className={styles.mobile}>
+        <div className={styles.imageWrapper}>
+          <div className={styles.imageFill}>
             <Image
               src={`/images/${src}`}
               alt={title}
-              className={styles.image}
-              width={300}
-              height={0}
+              fill
+              sizes="(max-width: 768px) 100vw, 300px"
+              priority={itemIndex === 0}
             />
           </div>
-          <div className={styles.info}>
-            <h2>{title}</h2>
-            <div className={styles.details}>
-              <p>Design & Development</p>
-              <p className={styles.year}>{year}</p>
-            </div>
+        </div>
+        <div className={styles.info}>
+          <h2>{title}</h2>
+          <div className={styles.details}>
+            <p>{renderCategory}</p>
+            <p className={styles.year}>{year}</p>
           </div>
         </div>
       </div>
-    )
+    </div>
   );
 }
