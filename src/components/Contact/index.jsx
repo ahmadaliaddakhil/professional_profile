@@ -196,7 +196,6 @@ export default function Contact() {
       </div>
 
       <div className={styles.right}>
-        {/* ✅ pakai next/image biar lebih optimal */}
         <Image
           width={400}
           height={300}
