@@ -217,7 +217,7 @@ export default function Projects() {
       )}
       {isMobile && (
         <motion.div
-          style={{ height: "50vh" }}
+          style={{ height: "60vh" }}
           className={styles.circleContainer}
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
